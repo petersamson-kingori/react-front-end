@@ -7,7 +7,8 @@ const BlogList = () => {
 
   useEffect(() => {
     fetch('https://sinatra-api-2.onrender.com/')
-      .then(data => setBlogs(data))
+      .then(response => response.json()) 
+      .then(data => setBlogs(data)) 
       .catch(error => console.error('Error fetching blogs:', error));
   }, []);
 
@@ -29,12 +30,11 @@ const BlogList = () => {
     })
       .then(response => response.json())
       .then(addedBlog => {
-        setBlogs([addedBlog, ...blogs]); // Use unshift to add the newly created blog at the top
+        setBlogs([addedBlog, ...blogs]);
         setNewBlog({ title: '', content: '', category: '' });
       })
       .catch(error => console.error('Error adding blog:', error));
   };
-  
 
   const handleBlogDelete = (id) => {
     // Delete blog
@@ -53,10 +53,11 @@ const BlogList = () => {
     : blogs;
 
   return (
-    <div>
-      <h1>Blog List</h1>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <h1 style={{ backgroundColor: 'black', color: 'white', padding: '100px', textAlign: 'center' }}>THE DESIGN BLOG</h1>
+      <h2>The readers Hub</h2>
       <div>
-        <button onClick={() => handleCategoryFilter('New')}>New</button>
+        <button onClick={() => handleCategoryFilter('')}>New</button>
         <button onClick={() => handleCategoryFilter('')}>All</button>
       </div>
       <form onSubmit={handleBlogSubmit}>
