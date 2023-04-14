@@ -6,9 +6,7 @@ const BlogList = () => {
   const [newBlog, setNewBlog] = useState({ title: '', content: '', category: '' });
 
   useEffect(() => {
-    // Fetch blogs from JSON file or API
-    fetch('http://localhost:9292/blogs') // Update the URL to the actual path of your JSON file or API
-      .then(response => response.json())
+    fetch('https://sinatra-api-2.onrender.com/')
       .then(data => setBlogs(data))
       .catch(error => console.error('Error fetching blogs:', error));
   }, []);
@@ -24,7 +22,7 @@ const BlogList = () => {
 
   const handleBlogSubmit = () => {
     // Add new blog
-    fetch('http://localhost:9292/blogs', {
+    fetch('https://sinatra-api-2.onrender.com/blogs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newBlog)
@@ -40,7 +38,7 @@ const BlogList = () => {
 
   const handleBlogDelete = (id) => {
     // Delete blog
-    fetch(`http://localhost:9292/blogs/${id}`, {
+    fetch(`https://sinatra-api-2.onrender.com/blogs/${id}`, {
       method: 'DELETE'
     })
       .then(() => {
