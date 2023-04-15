@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createBlog, getBlogs, deleteBlog } from './api'; // Import CRUD API functions
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -6,9 +7,9 @@ const BlogList = () => {
   const [newBlog, setNewBlog] = useState({ title: '', content: '', category: '' });
 
   useEffect(() => {
-    fetch('https://sinatra-api-2.onrender.com/')
-      .then(response => response.json()) 
-      .then(data => setBlogs(data)) 
+    // Fetch all blogs
+    getBlogs()
+      .then(data => setBlogs(data))
       .catch(error => console.error('Error fetching blogs:', error));
   }, []);
 
@@ -23,12 +24,7 @@ const BlogList = () => {
 
   const handleBlogSubmit = () => {
     // Add new blog
-    fetch('https://sinatra-api-2.onrender.com/blogs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newBlog)
-    })
-      .then(response => response.json())
+    createBlog(newBlog)
       .then(addedBlog => {
         setBlogs([addedBlog, ...blogs]);
         setNewBlog({ title: '', content: '', category: '' });
@@ -38,9 +34,7 @@ const BlogList = () => {
 
   const handleBlogDelete = (id) => {
     // Delete blog
-    fetch(`https://sinatra-api-2.onrender.com/blogs/${id}`, {
-      method: 'DELETE'
-    })
+    deleteBlog(id)
       .then(() => {
         setBlogs(blogs.filter(blog => blog.id !== id));
       })
